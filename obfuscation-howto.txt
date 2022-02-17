@@ -1,0 +1,35 @@
+// obfuscated
+const curry=(_o,...o)=>0&(_=_=>_.length)||((_o,Q)=>Q?_o():_o)(((_o,...o)=>(..._O)=>_o(...o,..._O))(...(_(o)>=_(_o)?[]:[curry]),_o,...o),_(o)>=_(_o));
+
+// rewrite _(some) to some.length
+const curry=(_o,...o)=>((_o,Q)=>Q?_o():_o)(((_o,...o)=>(..._O)=>_o(...o,..._O))(...(o.length>=_o.length?[]:[curry]),_o,...o),o.length>=_o.length);
+
+// change variable names
+let curry = (f, ...args)=>((f,t)=>t?f():f)(((f,...args)=>(...args2)=>f(...args,...args2))(...(args.length>=f.length?[]:[curry]),f,...args),args.length>=f.length)
+
+// add spaces
+let curry = (f, ...args) => ((f, test)=>test?f():f)(((f, ...args) => (...args2)=>f(...args, ...args2))(...(args.length>=f.length ? [] : [curry]), f, ...args), args.length>=f.length)
+
+// ok, lets create some names for helper functions
+let runIf = (f, test) => test ? f() : f;
+let bind = (f, ...args) => (...args2)=>f(...args, ...args2);
+let curry = (f, ...args) => runIf(bind(...(args.length>=f.length ? [] : [curry]), f, ...args), args.length>=f.length)
+
+// add some line breaks into curry
+let runIf = (f, test) => test ? f() : f;
+let bind = (f, ...args) => (...args2)=>f(...args, ...args2);
+let curry = (f, ...args) => {
+    let argsEnough = args.length>=f.length;
+    return runIf(bind(...(argsEnough ? [] : [curry]), f, ...args), argsEnough);
+}
+
+// avoid to use runIf:
+let bind = (f, ...args) => (...args2)=>f(...args, ...args2);
+let curry = (f, ...args) => {
+    let argsEnough = args.length>=f.length;
+    if (argsEnough){
+        return bind(f, ...args)();
+    } else {
+        return bind(curry, f, ...args);
+    }
+}

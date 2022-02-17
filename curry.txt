@@ -1,0 +1,26 @@
+// Funny obfuscated version
+const curry=(_o,...o)=>0&(_=_=>_.length)||((_o,Q)=>Q?_o():_o)(((_o,...o)=>(..._O)=>_o(...o,..._O))(...(_(o)>=_(_o)?[]:[curry]),_o,...o),_(o)>=_(_o));
+
+
+// Minified version
+const curry=(f,...a)=>a.length<f.length?(...b)=>curry(f,...a,...b):f(...a);
+
+
+// 1 line version:
+const bind = (f, ...args) => (...args2)=>f(...args, ...args2);  // Function.prototype.bind replacement
+const curry = (f, ...args) => (args.length>=f.length) ? f(...args) : bind(curry, f, ...args);
+
+
+// Multiline version
+function bind(f, ...args){
+    return (...args2) => f(...args, ...args2);
+}
+
+function curry(f, ...args){
+    let isArgumentsEnough = (args.length >= f.length);
+    if (isArgumentsEnough){
+        return f(...args);
+    } else {
+        return bind(curry, f, ...args);
+    }
+}
